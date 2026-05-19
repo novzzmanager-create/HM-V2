@@ -152,7 +152,7 @@ public class AddedActivity extends AppCompatActivity {
 		if (android.os.Build.VERSION.SDK_INT >= 35) {
 			getWindow().setDecorFitsSystemWindows(false);
 		}
-		new LoadApplications().execute(new Void[0]);
+		new Thread(new LoadApplications()).start();
 		_pack();
 		edittext1.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -337,42 +337,42 @@ public class AddedActivity extends AppCompatActivity {
 	
 	public void _pack() {
 	}
-	private class LoadApplications extends AsyncTask<Void, Integer, Void> {
+	private class LoadApplications implements Runnable {
 		private int progressStatus = 0;
 		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+		private void onPreExecute() {
+			// super.onPreExecute();
 			listview1.setVisibility(View.GONE);
 			progressbar.setVisibility(View.VISIBLE);
 			progressbar.setProgress(0); // mulai dari 0
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		public void run() {
+			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+			_mainHandler.post(this::onPreExecute);
 			for (int i = 0; i <= 100; i++) {
 				try {
 					Thread.sleep(20); // delay agar terlihat animasinya
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				publishProgress(i); // kirim nilai ke onProgressUpdate
+				final int _prog = i; new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> onProgressUpdate(_prog)); // kirim nilai ke onProgressUpdate
 			}
 			
 			_$Load$(); // fungsi loading utama kamu
 			
-			return null;
+			// done
+			_mainHandler.post(this::onPostExecute);
 		}
 		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-			progressbar.setProgress(values[0]);
+		private void onProgressUpdate(int value) {
+			// super.onProgressUpdate(values);
+			progressbar.setProgress(value);
 		}
 		
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
+		private void onPostExecute() {
+			// super.onPostExecute(result);
 			listview1.setAdapter(new Listview1Adapter(listmap));
 			listview1.setVisibility(View.VISIBLE);
 			progressbar.setVisibility(View.GONE);
