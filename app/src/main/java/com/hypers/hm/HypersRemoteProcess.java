@@ -2,79 +2,89 @@ package com.hypers.hm;
 
 import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
-
 import com.hypers.hm.server.IRemoteProcess;
-
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Wraps a remote {@link IRemoteProcess} binder with a convenient Java API
- * similar to {@link Process}.
- *
- * Package: com.hypers.hm
- */
-public class HypersRemoteProcess {
+public class HypersRemoteProcess extends Process {
 
     private final IRemoteProcess remote;
+    private OutputStream stdin;
+    private InputStream  stdout;
+    private InputStream  stderr;
 
     public HypersRemoteProcess(IRemoteProcess remote) {
         this.remote = remote;
     }
 
-    /** Returns an OutputStream connected to the stdin of the remote process. */
-    public OutputStream getOutputStream() throws RemoteException {
-        ParcelFileDescriptor pfd = remote.getOutputStream();
-        return new FileOutputStream(pfd.getFileDescriptor());
+    @Override
+    public OutputStream getOutputStream() {
+        if (stdin == null) {
+            try {
+                ParcelFileDescriptor pfd = remote.getOutputStream();
+                stdin = new FileOutputStream(pfd.getFileDescriptor());
+            } catch (RemoteException e) { throw new RuntimeException(e); }
+        }
+        return stdin;
     }
 
-    /** Returns an InputStream connected to the stdout of the remote process. */
-    public InputStream getInputStream() throws RemoteException {
-        ParcelFileDescriptor pfd = remote.getInputStream();
-        return new FileInputStream(pfd.getFileDescriptor());
+    @Override
+    public InputStream getInputStream() {
+        if (stdout == null) {
+            try {
+                ParcelFileDescriptor pfd = remote.getInputStream();
+                stdout = new FileInputStream(pfd.getFileDescriptor());
+            } catch (RemoteException e) { throw new RuntimeException(e); }
+        }
+        return stdout;
     }
 
-    /** Returns an InputStream connected to the stderr of the remote process. */
-    public InputStream getErrorStream() throws RemoteException {
-        ParcelFileDescriptor pfd = remote.getErrorStream();
-        return new FileInputStream(pfd.getFileDescriptor());
+    @Override
+    public InputStream getErrorStream() {
+        if (stderr == null) {
+            try {
+                ParcelFileDescriptor pfd = remote.getErrorStream();
+                stderr = new FileInputStream(pfd.getFileDescriptor());
+            } catch (RemoteException e) { throw new RuntimeException(e); }
+        }
+        return stderr;
     }
 
-    /** Blocks until the remote process exits, then returns its exit code. */
-    public int waitFor() throws RemoteException {
-        return remote.waitFor();
+    @Override
+    public int waitFor() throws InterruptedException {
+        try { return remote.waitFor(); }
+        catch (RemoteException e) { throw new RuntimeException(e); }
     }
 
-    /** Returns the exit code without blocking. Throws if the process is still running. */
-    public int exitValue() throws RemoteException {
-        return remote.exitValue();
+    @Override
+    public boolean waitFor(long timeout, TimeUnit unit) throws InterruptedException {
+        try { return remote.waitForTimeout(timeout, unit.name()); }
+        catch (RemoteException e) { throw new RuntimeException(e); }
     }
 
-    /** Returns {@code true} if the remote process is still running. */
-    public boolean isAlive() throws RemoteException {
-        return remote.alive();
+    @Override
+    public int exitValue() {
+        try { return remote.exitValue(); }
+        catch (RemoteException e) { throw new IllegalThreadStateException(e.getMessage()); }
     }
 
-    /**
-     * Blocks until the remote process exits or the timeout elapses.
-     *
-     * @param timeout timeout value
-     * @param unit    timeout unit
-     * @return {@code true} if process exited within the timeout
-     */
-    public boolean waitFor(long timeout, TimeUnit unit) throws RemoteException {
-        return remote.waitForTimeout(timeout, unit.name());
+    @Override
+    public void destroy() {
+        try { remote.destroy(); }
+        catch (RemoteException e) { throw new RuntimeException(e); }
     }
 
-    /** Terminates the remote process. */
-    public void destroy() throws RemoteException {
-        remote.destroy();
+    @Override
+    public Process destroyForcibly() { destroy(); return this; }
+
+    public boolean isAlive() {
+        try { return remote.alive(); }
+        catch (RemoteException e) { return false; }
     }
-    
+
     public String exec(String command) throws RemoteException {
         return remote.exec(command);
     }

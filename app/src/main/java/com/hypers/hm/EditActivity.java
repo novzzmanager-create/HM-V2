@@ -13,7 +13,16 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+import android.os.Message;
+import android.os.SystemClock;
 import android.text.*;
 import android.text.style.*;
 import android.util.*;
@@ -333,7 +342,7 @@ public class EditActivity extends AppCompatActivity {
 	public void setContentView(int layoutResID) {
 		if (getIntent().getBooleanExtra("dialogTheme", true)) {
 			supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-			setTheme(R.style.Theme_AppCompat_Light_Dialog);
+			setTheme(R.style.DialogTransparent);
 			setFinishOnTouchOutside(true);
 			
 			try {

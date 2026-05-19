@@ -9,7 +9,16 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+import android.os.Message;
+import android.os.SystemClock;
 import android.text.*;
 import android.text.style.*;
 import android.util.*;
@@ -174,7 +183,7 @@ public class RuncmdActivity extends AppCompatActivity {
 				new Thread(() -> {
 					try {
 						// STEP 1: Eksekusi Standard Android
-						Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
+						java.lang.Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 						
 						// Ambil PID (Output baris pertama)
 						BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -195,7 +204,7 @@ public class RuncmdActivity extends AppCompatActivity {
 							String activeBB = new File(bbPath).exists() ? bbPath : bbTmpPath;
 							String bbCommand = activeBB + " " + command;
 							
-							Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
+							java.lang.Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
 							
 							captureOutput(bbProcess);
 							bbProcess.waitFor();
@@ -355,7 +364,7 @@ public class RuncmdActivity extends AppCompatActivity {
 			new Thread(() -> {
 				try {
 					// STEP 1: Eksekusi Standard Android
-					Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
+					java.lang.Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 					
 					// Ambil PID (Output baris pertama)
 					BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -376,7 +385,7 @@ public class RuncmdActivity extends AppCompatActivity {
 						String activeBB = new File(bbPath).exists() ? bbPath : bbTmpPath;
 						String bbCommand = activeBB + " " + command;
 						
-						Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
+						java.lang.Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
 						
 						captureOutput(bbProcess);
 						bbProcess.waitFor();

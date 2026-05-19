@@ -15,7 +15,16 @@ import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+import android.os.Message;
+import android.os.SystemClock;
 import android.os.Bundle;
 import android.text.*;
 import android.text.style.*;
@@ -723,7 +732,7 @@ public class ListeditActivity extends AppCompatActivity {
 		final com.google.android.material.bottomsheet.BottomSheetDialog bt = new com.google.android.material.bottomsheet.BottomSheetDialog(ListeditActivity.this);
 		View inflate = getLayoutInflater().inflate(R.layout.set, null);
 		bt.setContentView(inflate);
-		bt.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
+		bt.getWindow().findViewById(com.google.android.material.R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
 		LinearLayout blinear1 = (LinearLayout)
 		inflate.findViewById(R.id.blinear1);
 		LinearLayout blinear2 = (LinearLayout)

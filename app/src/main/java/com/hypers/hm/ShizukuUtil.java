@@ -1,7 +1,6 @@
 package com.hypers.hm;
 
 import rikka.shizuku.Shizuku;
-import rikka.shizuku.ShizukuRemoteProcess;
 import com.hypers.hm.Hypers;
 import com.hypers.hm.HypersRemoteProcess;
 import android.util.Log;
@@ -16,11 +15,7 @@ private static final String TAG = "ShizukuUtil";
         StringBuilder output = new StringBuilder();
 
         try {
-            ShizukuRemoteProcess process = new ShizukuRemoteProcess(
-                new String[]{"sh", "-c", cmd},
-                null,
-                null
-            );
+            java.lang.Process process = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
 
             java.io.BufferedReader reader = new java.io.BufferedReader(
                 new java.io.InputStreamReader(process.getInputStream())
@@ -46,7 +41,7 @@ private static final String TAG = "ShizukuUtil";
         try {
             if (!Hypers.pingBinder()) {
                 // Fallback ke Runtime jika Hypers belum aktif
-                Process p = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
+                java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
                 java.io.BufferedReader reader = new java.io.BufferedReader(
                     new InputStreamReader(p.getInputStream())
                 );

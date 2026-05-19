@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import android.util.Log;
 
 import rikka.shizuku.Shizuku;
-import rikka.shizuku.ShizukuRemoteProcess;
 import com.hypers.hm.Hypers;
 import com.hypers.hm.HypersRemoteProcess;
 
@@ -17,7 +16,7 @@ public class ExecEngine {
 
     public static boolean isRootAvailable() {
         try {
-            Process p = Runtime.getRuntime().exec("su");
+            java.lang.Process p = Runtime.getRuntime().exec("su");
             p.getOutputStream().write("exit\n".getBytes());
             p.getOutputStream().flush();
             p.waitFor();
@@ -48,7 +47,7 @@ public class ExecEngine {
 
     private static void execRoot(String cmd) {
         try {
-            Process p = Runtime.getRuntime().exec("su");
+            java.lang.Process p = Runtime.getRuntime().exec("su");
             java.io.DataOutputStream os = new java.io.DataOutputStream(p.getOutputStream());
             os.writeBytes(cmd + "\nexit\n");
             os.flush();
@@ -59,7 +58,7 @@ public class ExecEngine {
     private static String execRootRead(String cmd) {
         StringBuilder out = new StringBuilder();
         try {
-            Process p = Runtime.getRuntime().exec("su");
+            java.lang.Process p = Runtime.getRuntime().exec("su");
             java.io.DataOutputStream os = new java.io.DataOutputStream(p.getOutputStream());
             os.writeBytes(cmd + "\nexit\n");
             os.flush();
@@ -82,22 +81,14 @@ public class ExecEngine {
 
     private static void execShizuku(String cmd){
         try{
-            new ShizukuRemoteProcess(
-                new String[]{"sh","-c",cmd},
-                null,
-                null
-            );
+            rikka.shizuku.Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
         }catch(Exception e){ e.printStackTrace(); }
     }
 
     private static String execShizukuRead(String cmd){
         StringBuilder out = new StringBuilder();
         try{
-            Process p = new ShizukuRemoteProcess(
-                new String[]{"sh","-c",cmd},
-                null,
-                null
-            );
+            java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
 
             java.io.BufferedReader r = new java.io.BufferedReader(
                 new java.io.InputStreamReader(p.getInputStream())

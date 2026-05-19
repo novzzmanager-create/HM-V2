@@ -8,7 +8,16 @@ import android.graphics.*;
 import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+import android.os.Message;
+import android.os.SystemClock;
 import android.text.*;
 import android.text.style.*;
 import android.util.*;
@@ -36,7 +45,8 @@ import org.json.*;
 import org.lsposed.hiddenapibypass.library.*;
 import rikka.shizuku.api.*;
 import rikka.shizuku.provider.*;
-import com.hypers.hm.modelUi.BatteryBarView;
+import com.hypers.hm.modelUi.BatteryBarView;
+
 
 public class HypersmodeActivity extends AppCompatActivity {
 	
@@ -80,4 +90,4 @@ public class HypersmodeActivity extends AppCompatActivity {
 	private void initializeLogic() {
 	}
 	
-}
+}

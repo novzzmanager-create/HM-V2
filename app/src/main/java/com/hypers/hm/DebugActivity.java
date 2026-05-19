@@ -11,7 +11,16 @@ import android.graphics.drawable.*;
 import android.media.*;
 import android.net.*;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.os.Build;
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+import android.os.Message;
+import android.os.SystemClock;
 import android.os.Bundle;
 import android.text.*;
 import android.text.style.*;
@@ -113,4 +122,4 @@ public class DebugActivity extends AppCompatActivity {
 	public void onBackPressed() {
 		
 	}
-}
+}
