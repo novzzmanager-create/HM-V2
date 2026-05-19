@@ -81,15 +81,22 @@ public class ExecEngine {
 
     private static void execShizuku(String cmd){
         try{
-            rikka.shizuku.Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+            // Menggunakan Shizuku Remote Process via Runtime jika method direct disembunyikan
+            if (Hypers.pingBinder()) {
+                execHypers(cmd);
+            } else {
+                Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
+            }
         }catch(Exception e){ e.printStackTrace(); }
     }
 
     private static String execShizukuRead(String cmd){
+        if (Hypers.pingBinder()) {
+            return execHypersRead(cmd);
+        }
         StringBuilder out = new StringBuilder();
         try{
-            java.lang.Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
-
+            java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
             java.io.BufferedReader r = new java.io.BufferedReader(
                 new java.io.InputStreamReader(p.getInputStream())
             );
@@ -101,12 +108,10 @@ public class ExecEngine {
 
             r.close();
             p.waitFor();
-
         }catch(Exception e){ e.printStackTrace(); }
 
         return out.toString();
     }
-    
     
     private static void execHypers(String cmd) {
         try {
@@ -146,18 +151,12 @@ public class ExecEngine {
         return out.toString();
     }
 
-    /**
-     * Creates a Process using HypersService if available, falls back to root/sh.
-     * Replaces all Shizuku.newProcess() calls.
-     */
     public static Process newProcess(String[] cmd) {
         try {
             if (Hypers.pingBinder()) {
                 return new HypersRemoteProcess(
                     Hypers.requireService().newProcess(cmd, null, null)
                 );
-            } else if (isRootAvailableCached()) {
-                return Runtime.getRuntime().exec(cmd);
             } else {
                 return Runtime.getRuntime().exec(cmd);
             }
@@ -166,5 +165,4 @@ public class ExecEngine {
             try { return Runtime.getRuntime().exec(cmd); } catch (Exception ex) { return null; }
         }
     }
-
 }
