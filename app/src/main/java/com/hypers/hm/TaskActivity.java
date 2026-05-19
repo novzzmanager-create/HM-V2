@@ -470,7 +470,7 @@ public class TaskActivity extends AppCompatActivity {
 	public void setContentView(int layoutResID) {
 		if (getIntent().getBooleanExtra("dialogTheme", true)) {
 			supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-			setTheme(R.style.Theme_AppCompat_Light_Dialog);
+			setTheme(R.style.DialogTransparent);
 			setFinishOnTouchOutside(true);
 			
 			try {

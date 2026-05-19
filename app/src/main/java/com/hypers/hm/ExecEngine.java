@@ -82,7 +82,7 @@ public class ExecEngine {
 
     private static void execShizuku(String cmd){
         try{
-            java.lang.Process process = rikka.shizuku.Shizuku.newProcess(
+            new ShizukuRemoteProcess(
                 new String[]{"sh","-c",cmd},
                 null,
                 null

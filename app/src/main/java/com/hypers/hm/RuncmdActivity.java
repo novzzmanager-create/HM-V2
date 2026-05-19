@@ -174,7 +174,7 @@ public class RuncmdActivity extends AppCompatActivity {
 				new Thread(() -> {
 					try {
 						// STEP 1: Eksekusi Standard Android
-						java.lang.Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
+						Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 						
 						// Ambil PID (Output baris pertama)
 						BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -355,7 +355,7 @@ public class RuncmdActivity extends AppCompatActivity {
 			new Thread(() -> {
 				try {
 					// STEP 1: Eksekusi Standard Android
-					java.lang.Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
+					Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 					
 					// Ambil PID (Output baris pertama)
 					BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -376,7 +376,7 @@ public class RuncmdActivity extends AppCompatActivity {
 						String activeBB = new File(bbPath).exists() ? bbPath : bbTmpPath;
 						String bbCommand = activeBB + " " + command;
 						
-						java.lang.Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
+						Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
 						
 						captureOutput(bbProcess);
 						bbProcess.waitFor();
@@ -501,7 +501,7 @@ public class RuncmdActivity extends AppCompatActivity {
 		
 		try {
 			
-			java.lang.Process process =
+			process =
 			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
