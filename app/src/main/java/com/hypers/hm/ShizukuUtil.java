@@ -16,7 +16,7 @@ private static final String TAG = "ShizukuUtil";
         StringBuilder output = new StringBuilder();
 
         try {
-            ShizukuRemoteProcess process = new ShizukuRemoteProcess(
+            java.lang.Process process = rikka.shizuku.Shizuku.newProcess(
                 new String[]{"sh", "-c", cmd},
                 null,
                 null
