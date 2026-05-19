@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -30,8 +31,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.text.*;
@@ -46,7 +45,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import java.lang.Process;
+import java.lang.Process;
+
+
 
 public class CmdexecActivity extends AppCompatActivity {
 	
@@ -186,11 +187,7 @@ public class CmdexecActivity extends AppCompatActivity {
 						process = Runtime.getRuntime().exec(new String[]{"su", "-c", "echo $$; " + fullCommand});
 					} else {
 						// Jika Shizuku, pake Shizuku process
-						process = rikka.shizuku.Shizuku.newProcess(
-						new String[]{"sh", "-c", "echo $$; " + fullCommand},
-						null,
-						null
-						);
+						process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + fullCommand});
 					}
 					
 					// Thread khusus baca Output (STDOUT)
@@ -512,7 +509,7 @@ public class CmdexecActivity extends AppCompatActivity {
 	private String shizukuExecRead(String command) {
 		StringBuilder output = new StringBuilder();
 		try {
-			java.lang.Process process = Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
+			Process process = ExecEngine.newProcess(new String[]{"sh", "-c", command});
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -531,7 +528,7 @@ public class CmdexecActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -623,4 +620,4 @@ public class CmdexecActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}

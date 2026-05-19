@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -29,8 +30,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import com.google.android.material.textfield.*;
 import java.io.*;
@@ -467,7 +466,7 @@ public class AdbcommandActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			

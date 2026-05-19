@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -41,8 +42,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.io.InputStream;
@@ -86,7 +85,9 @@ import android.os.CountDownTimer;
 
 import com.hypers.hm.service.FloatingService;
 import com.hypers.hm.service.ProBoosterService;
-import com.hypers.hm.debug.ADB;
+import com.hypers.hm.debug.ADB;
+
+
 
 public class GamesFragmentActivity extends Fragment {
 	
@@ -597,7 +598,6 @@ public class GamesFragmentActivity extends Fragment {
 	private LinearGradient gradient;
 	private Matrix matrix = new Matrix();
 	private Paint paint = new Paint();
-	private Focora focoraTutorial;
 	private float translate = 0f;
 	private ArrayList<String> commandHistory = new ArrayList<>();
 	private int historyIndex = -1;
@@ -789,7 +789,7 @@ public class GamesFragmentActivity extends Fragment {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -1065,7 +1065,7 @@ public class GamesFragmentActivity extends Fragment {
 		
 		
 		try {
-			Shizuku.newProcess(new String[]{"sh", "-c", brandTweak}, null, null);
+			ExecEngine.newProcess(new String[]{"sh", "-c", brandTweak});
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2402,4 +2402,4 @@ public class GamesFragmentActivity extends Fragment {
 			return _view;
 		}
 	}
-}
+}

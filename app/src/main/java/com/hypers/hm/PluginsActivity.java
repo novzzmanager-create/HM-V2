@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -40,8 +41,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.io.InputStream;
@@ -78,7 +77,9 @@ import com.bumptech.glide.request.transition.Transition;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipEntry;
 
-import com.hypers.hm.service.ProBoosterService;
+import com.hypers.hm.service.ProBoosterService;
+
+
 
 public class PluginsActivity extends AppCompatActivity {
 	
@@ -910,11 +911,7 @@ public class PluginsActivity extends AppCompatActivity {
 	
 	public void execShizuku(String cmd){
 		try{
-			rikka.shizuku.Shizuku.newProcess(
-			new String[]{"sh", "-c", cmd},
-			null,
-			null
-			);
+			ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -925,11 +922,7 @@ public class PluginsActivity extends AppCompatActivity {
 		StringBuilder output = new StringBuilder();
 		
 		try {
-			Process process = rikka.shizuku.Shizuku.newProcess(
-			new String[]{"sh", "-c", cmd},
-			null,
-			null
-			);
+			Process process = ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 			
 			java.io.BufferedReader reader = new java.io.BufferedReader(
 			new java.io.InputStreamReader(process.getInputStream())
@@ -1429,7 +1422,7 @@ public class PluginsActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -1464,11 +1457,7 @@ public class PluginsActivity extends AppCompatActivity {
 			if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED)
 			return "Permission Shizuku belum diberikan";
 			
-			Process process = Shizuku.newProcess(
-			new String[]{"sh", "-c", cmd},
-			null,          
-			null            
-			);
+			Process process = ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 			
 			BufferedReader reader = new BufferedReader(
 			new InputStreamReader(process.getInputStream())
@@ -2779,4 +2768,4 @@ public class PluginsActivity extends AppCompatActivity {
 			return _view;
 		}
 	}
-}
+}

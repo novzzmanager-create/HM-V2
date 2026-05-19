@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -31,8 +32,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.text.*;
@@ -54,7 +53,9 @@ import java.io.InputStreamReader;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import java.lang.Process;
+import java.lang.Process;
+
+
 
 public class CmdpluginsActivity extends AppCompatActivity {
 	
@@ -237,7 +238,7 @@ public class CmdpluginsActivity extends AppCompatActivity {
 					if (isRootAvailable()) { 
 						process = Runtime.getRuntime().exec(new String[]{"su", "-c", fullCommand});
 					} else {
-						process = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", fullCommand}, null, null);
+						process = ExecEngine.newProcess(new String[]{"sh", "-c", fullCommand});
 					}
 					
 					// Baca Output (STDOUT) & Error (STDERR) secara real-time
@@ -684,7 +685,7 @@ public class CmdpluginsActivity extends AppCompatActivity {
 	
 	public void execShizuku(String cmd) {
 		try {
-			rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -693,7 +694,7 @@ public class CmdpluginsActivity extends AppCompatActivity {
 	public String shizukuExecRead(String command) {
 		StringBuilder output = new StringBuilder();
 		try {
-			Process p = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
+			Process p = ExecEngine.newProcess(new String[]{"sh", "-c", command});
 			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -767,4 +768,4 @@ public class CmdpluginsActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}

@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -42,8 +43,6 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnAdapterChangeListener;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -92,7 +91,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.security.MessageDigest;
 import android.content.ClipboardManager;
-import android.content.ClipData;
+import android.content.ClipData;
+
+
 
 public class MainActivity extends AppCompatActivity {
 	
@@ -761,7 +762,7 @@ public class MainActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -1509,4 +1510,4 @@ public class MainActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}

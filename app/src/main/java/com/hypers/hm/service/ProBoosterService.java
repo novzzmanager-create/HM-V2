@@ -1,4 +1,5 @@
 package com.hypers.hm.service;
+import com.hypers.hm.ExecEngine;
 
 import android.app.*;
 import android.content.*;
@@ -103,15 +104,11 @@ public class ProBoosterService extends Service {
 
             } else {
 
-                rikka.shizuku.Shizuku.newProcess(
-                        new String[]{
+                ExecEngine.newProcess(new String[]{
                                 "sh",
                                 "-c",
                                 cmd
-                        },
-                        null,
-                        null
-                );
+                        });
             }
 
         } catch (Exception ignored) {
@@ -138,15 +135,11 @@ public class ProBoosterService extends Service {
 
             } else {
 
-                p = rikka.shizuku.Shizuku.newProcess(
-                        new String[]{
+                p = ExecEngine.newProcess(new String[]{
                                 "sh",
                                 "-c",
                                 cmd
-                        },
-                        null,
-                        null
-                );
+                        });
             }
 
             BufferedReader r =

@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -32,8 +33,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.text.*;
@@ -59,7 +58,9 @@ import android.webkit.ValueCallback;
 import android.widget.Toast;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.json.JSONObject;
+import org.json.JSONObject;
+
+
 
 public class WebuiActivity extends AppCompatActivity {
 	
@@ -537,7 +538,7 @@ public class WebuiActivity extends AppCompatActivity {
 				
 				String[] command = new String[]{"sh", "-c", cmd};
 				
-				Process process = Shizuku.newProcess(command, null, null);
+				Process process = ExecEngine.newProcess(command);
 				
 				BufferedReader br = new BufferedReader(
 				new InputStreamReader(process.getInputStream())
@@ -612,7 +613,7 @@ public class WebuiActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -1177,4 +1178,4 @@ public class WebuiActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}

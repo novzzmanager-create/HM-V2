@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -31,8 +32,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import java.io.*;
 import java.text.*;
@@ -57,7 +56,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.content.pm.ApplicationInfo;
-import android.content.res.Configuration;
+import android.content.res.Configuration;
+
+
 
 public class TaskActivity extends AppCompatActivity {
 	
@@ -195,7 +196,7 @@ public class TaskActivity extends AppCompatActivity {
 		new Thread(() -> {
 			ArrayList<HashMap<String, Object>> tempList = new ArrayList<>();
 			try {
-				java.lang.Process ps = Shizuku.newProcess(new String[]{"sh", "-c", "ps -A -o PID,USER,%CPU,RSS,NAME | grep u0_a"}, null, null);
+				Process ps = ExecEngine.newProcess(new String[]{"sh", "-c", "ps -A -o PID,USER,%CPU,RSS,NAME | grep u0_a"});
 				BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
 				String line;
 				while ((line = reader.readLine()) != null) {
@@ -260,18 +261,10 @@ public class TaskActivity extends AppCompatActivity {
 			try {
 				
 				
-				Shizuku.newProcess(
-				new String[]{"sh", "-c", "kill -9 " + pid},
-				null,
-				null
-				);
+				ExecEngine.newProcess(new String[]{"sh", "-c", "kill -9 " + pid});
 				
 				
-				Shizuku.newProcess(
-				new String[]{"sh", "-c", "am force-stop " + pkg},
-				null,
-				null
-				);
+				ExecEngine.newProcess(new String[]{"sh", "-c", "am force-stop " + pkg});
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -424,11 +417,7 @@ public class TaskActivity extends AppCompatActivity {
 	
 	private String shizukuExec(String cmd) {
 		try {
-			java.lang.Process process = Shizuku.newProcess(
-			new String[]{"sh", "-c", cmd},
-			null,
-			null
-			);
+			Process process = ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 			
 			BufferedReader reader = new BufferedReader(
 			new InputStreamReader(process.getInputStream())
@@ -698,4 +687,4 @@ public class TaskActivity extends AppCompatActivity {
 			return _view;
 		}
 	}
-}
+}

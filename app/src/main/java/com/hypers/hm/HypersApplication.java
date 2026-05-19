@@ -4,8 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import com.hypers.hm.DebugActivity;
-import com.hypers.hm.SketchLogger;
 import com.google.android.material.color.DynamicColors;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -38,16 +36,11 @@ public void onCreate() {
             new Thread.UncaughtExceptionHandler() {
                 @Override
                 public void uncaughtException(Thread thread, Throwable throwable) {
-                    Intent intent = new Intent(getApplicationContext(), DebugActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("error", Log.getStackTraceString(throwable));
-                    startActivity(intent);
-                    SketchLogger.broadcastLog(Log.getStackTraceString(throwable));
+                    Log.e("HypersApp", "Uncaught exception", throwable);
                     android.os.Process.killProcess(android.os.Process.myPid());
                     System.exit(1);
                 }
             });
-    SketchLogger.startLogging();
     super.onCreate();
     instance = this;
 }

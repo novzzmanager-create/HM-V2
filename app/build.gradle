@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-	compileSdk 34
+	compileSdk 36
 	namespace "com.hypers.hm"
 
 	defaultConfig {
 		applicationId "com.hypers.hm"
-		minSdkVersion 21
-		targetSdkVersion 34
+		minSdkVersion 24
+		targetSdkVersion 36
 
 		versionCode 3
 		versionName "10230 HYPERS_MANAGERV2"
@@ -91,4 +91,9 @@ dependencies {
 
 	// OpenSSL untuk NDK build
 	implementation 'com.android.ndk.thirdparty:openssl:1.1.1q-beta-1'
+
+	// UI libraries
+	implementation 'com.facebook.shimmer:shimmer:0.5.0'
+	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+	implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
 }

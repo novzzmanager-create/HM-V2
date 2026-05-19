@@ -1,4 +1,5 @@
 package com.hypers.hm.service;
+import com.hypers.hm.ExecEngine;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -144,16 +145,11 @@ public class DpiServiceUtils extends Service {
 
         try {
 
-            Process process =
-                rikka.shizuku.Shizuku.newProcess(
-                    new String[]{
+            Process process = ExecEngine.newProcess(new String[]{
                         "sh",
                         "-c",
                         "dumpsys window | grep mCurrentFocus"
-                    },
-                    null,
-                    null
-                );
+                    });
 
             BufferedReader reader =
                 new BufferedReader(
@@ -212,15 +208,11 @@ public class DpiServiceUtils extends Service {
                 cmd = "wm density " + targetDensity;
             }
 
-            rikka.shizuku.Shizuku.newProcess(
-                new String[]{
+            ExecEngine.newProcess(new String[]{
                     "sh",
                     "-c",
                     cmd
-                },
-                null,
-                null
-            );
+                });
 
         } catch (Exception e) {
 

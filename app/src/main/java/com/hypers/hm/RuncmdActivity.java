@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -29,8 +30,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import com.google.android.material.textfield.*;
 import java.io.*;
@@ -46,7 +45,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-
+
+
+
 
 public class RuncmdActivity extends AppCompatActivity {
 	
@@ -173,10 +174,7 @@ public class RuncmdActivity extends AppCompatActivity {
 				new Thread(() -> {
 					try {
 						// STEP 1: Eksekusi Standard Android
-						java.lang.Process process = Shizuku.newProcess(
-						new String[]{"sh", "-c", "echo $$; " + command},
-						null, null
-						);
+						Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 						
 						// Ambil PID (Output baris pertama)
 						BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -197,10 +195,7 @@ public class RuncmdActivity extends AppCompatActivity {
 							String activeBB = new File(bbPath).exists() ? bbPath : bbTmpPath;
 							String bbCommand = activeBB + " " + command;
 							
-							java.lang.Process bbProcess = Shizuku.newProcess(
-							new String[]{"sh", "-c", bbCommand},
-							null, null
-							);
+							Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
 							
 							captureOutput(bbProcess);
 							bbProcess.waitFor();
@@ -360,10 +355,7 @@ public class RuncmdActivity extends AppCompatActivity {
 			new Thread(() -> {
 				try {
 					// STEP 1: Eksekusi Standard Android
-					java.lang.Process process = Shizuku.newProcess(
-					new String[]{"sh", "-c", "echo $$; " + command},
-					null, null
-					);
+					Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "echo $$; " + command});
 					
 					// Ambil PID (Output baris pertama)
 					BufferedReader pidReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -384,10 +376,7 @@ public class RuncmdActivity extends AppCompatActivity {
 						String activeBB = new File(bbPath).exists() ? bbPath : bbTmpPath;
 						String bbCommand = activeBB + " " + command;
 						
-						java.lang.Process bbProcess = Shizuku.newProcess(
-						new String[]{"sh", "-c", bbCommand},
-						null, null
-						);
+						Process bbProcess = ExecEngine.newProcess(new String[]{"sh", "-c", bbCommand});
 						
 						captureOutput(bbProcess);
 						bbProcess.waitFor();
@@ -513,7 +502,7 @@ public class RuncmdActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -761,4 +750,4 @@ public class RuncmdActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}

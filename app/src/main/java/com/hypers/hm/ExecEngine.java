@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import android.util.Log;
 
 import rikka.shizuku.Shizuku;
+import rikka.shizuku.ShizukuRemoteProcess;
 import com.hypers.hm.Hypers;
 import com.hypers.hm.HypersRemoteProcess;
 
@@ -81,7 +82,7 @@ public class ExecEngine {
 
     private static void execShizuku(String cmd){
         try{
-            rikka.shizuku.Shizuku.newProcess(
+            new ShizukuRemoteProcess(
                 new String[]{"sh","-c",cmd},
                 null,
                 null
@@ -92,7 +93,7 @@ public class ExecEngine {
     private static String execShizukuRead(String cmd){
         StringBuilder out = new StringBuilder();
         try{
-            Process p = rikka.shizuku.Shizuku.newProcess(
+            Process p = new ShizukuRemoteProcess(
                 new String[]{"sh","-c",cmd},
                 null,
                 null
@@ -153,4 +154,26 @@ public class ExecEngine {
         }
         return out.toString();
     }
+
+    /**
+     * Creates a Process using HypersService if available, falls back to root/sh.
+     * Replaces all Shizuku.newProcess() calls.
+     */
+    public static Process newProcess(String[] cmd) {
+        try {
+            if (Hypers.pingBinder()) {
+                return new HypersRemoteProcess(
+                    Hypers.requireService().newProcess(cmd, null, null)
+                );
+            } else if (isRootAvailableCached()) {
+                return Runtime.getRuntime().exec(cmd);
+            } else {
+                return Runtime.getRuntime().exec(cmd);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "newProcess failed", e);
+            try { return Runtime.getRuntime().exec(cmd); } catch (Exception ex) { return null; }
+        }
+    }
+
 }

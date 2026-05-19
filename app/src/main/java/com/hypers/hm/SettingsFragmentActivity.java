@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -40,8 +41,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import com.hypers.hm.MultiCoreGraphView;
 import com.hypers.hm.SegmentedButton;
@@ -89,7 +88,9 @@ import com.hypers.hm.service.FloatingService;
 import com.hypers.hm.service.GyroService;
 import com.hypers.hm.debug.ADB;
 
-import android.provider.Settings;
+import android.provider.Settings;
+
+
 
 public class SettingsFragmentActivity extends Fragment {
 	
@@ -1828,11 +1829,7 @@ public class SettingsFragmentActivity extends Fragment {
 					
 					String cmd = "wm size " + width + "x" + height;
 					
-					Shizuku.newProcess(
-					new String[]{"sh", "-c", cmd},
-					null,
-					null
-					);
+					ExecEngine.newProcess(new String[]{"sh", "-c", cmd});
 					
 					SketchwareUtil.showMessage(getContext().getApplicationContext(), "berhasil apply!");
 					
@@ -2204,127 +2201,6 @@ public class SettingsFragmentActivity extends Fragment {
 	}
 	
 	private void initializeLogic() {
-		_comment("Make sure when you use my library in your project, these libraries are enabled with exact version match :\n\nFocora 1.0.3\nannotations-v23.0.0\njspecify-v1.0.0\nkotlinx-coroutines-core-v1.9.0\nlifecycle-common-jvm-v2.10.0\n\nand make sure these are disabled :\nannotation-v1.9.1\nkotlin-stdlib-v2.2.10\nlifecycle-common-v2.10.0\nkotlinx-coroutines-core-jvm-v1.9.0\n\nThis is an Sketchware Issue not the library one.");
-		_comment("You can customise the UI of the tooltip to override the default theme.");
-		FocoraTheme theme = new FocoraTheme.Builder()
-		
-		// Overlay
-		.overlayColor(Color.argb(210, 0, 0, 0))        // ARGB — alpha controls darkness
-		
-		// Focora
-		.spotlightPadding(10f)                           // extra space around the target view (dp)
-		.spotlightBorder(Color.WHITE, 2f)                // optional glowing border around the cutout
-		
-		// Tooltip card
-		.tooltipBackgroundColor(Color.WHITE)
-		.tooltipCornerRadius(20f)                        // dp
-		.tooltipElevation(8f)                            // dp
-		.tooltipMaxWidth(0)                            // dp, 0 = no limit
-		
-		// Title text
-		.titleTextColor(Color.parseColor("#1A1A1A"))
-		.titleTextSize(16f)                              // sp
-		.titleTypeface(Typeface.create("sans-serif", Typeface.BOLD))
-		
-		// Description text
-		.descTextColor(Color.parseColor("#666666"))
-		.descTextSize(13f)                               // sp
-		.descTypeface(Typeface.DEFAULT)
-		
-		// Next / Finish button
-		.buttonBackgroundColor(Color.parseColor("#6200EE"))
-		.buttonTextColor(Color.WHITE)
-		.buttonCornerRadius(999f)                        // 999 = pill shape
-		.nextButtonLabel("Next")
-		.finishButtonLabel("Got it!")
-		
-		// Skip button
-		.showSkipButton(true)
-		.skipButtonLabel("Skip tour")
-		
-		// Arrow pointer (connects tooltip to spotlight)
-		.showArrow(true)
-		.arrowColor(Color.WHITE)                         // 0 = matches tooltip background
-		.arrowSize(10f)                                  // dp
-		
-		// Step indicator dots
-		.showStepIndicator(true)
-		.stepIndicatorColors(
-		Color.parseColor("#6200EE"),                 // active dot color
-		Color.parseColor("#CCCCCC")                  // inactive dot color
-		)
-		.stepIndicatorSize(6f)                           // dp
-		
-		// Accessibility
-		.respectReducedMotion(true)                      // skips animations if user disabled them
-		
-		.build();
-		_comment("Now create steps individually");
-		FocoraStep step1 = new FocoraStep.Builder(linear49)
-		.title("Permission Environtment Level")
-		.description("Grant permission to get access to HM features.")
-		.shape(FocoraShape.ROUNDED_RECT)
-		.tooltipPosition(TooltipPosition.ABOVE)
-		.animationStyle(AnimationStyle.FADE)
-		.cornerRadius(16f)               // only applies if shape is ROUNDED_RECT
-		.dismissOnTapOutside(true)       // this step dismisses if user taps outside
-		.onShown(() -> {
-			// fires after this step's entrance animation completes
-			Log.d("Tour", "Step is now visible");
-		})
-		.build();
-		FocoraStep step2 = new FocoraStep.Builder(imageview19)
-		.title("Settings Fitures")
-		.description("List Settings Adalah Fitur Yang Sudah Disediakan Oleh Developer HM.")
-		.shape(FocoraShape.ROUNDED_RECT)
-		.tooltipPosition(TooltipPosition.LEFT)
-		.animationStyle(AnimationStyle.PULSE)
-		.cornerRadius(16f)               // only applies if shape is ROUNDED_RECT
-		//        .dismissOnTapOutside(true)       // this step dismisses if user taps outside
-		.onShown(() -> {
-			// fires after this step's entrance animation completes
-			Log.d("Tour", "Step is now visible");
-		})
-		.build();
-		_comment("Now setup the tutorial sequence");
-		focoraTutorial = new Focora.Builder(requireActivity())
-		.theme(theme)
-		.tutorialKey("showcase_v1")
-		.resetOnStart(false) // Forces it to show every time for easy screen recording
-		.startDelay(500) // Wait half a second after screen loads before popping up
-		.dismissOnTapOutside(false)
-		.dismissOnBackPress(false)
-		.addStep(step1)
-		.addStep(step2)
-		.listener(new FocoraListener.Adapter() {
-			
-			@Override
-			public void onStepShown(int stepIndex, FocoraStep step) {
-				// Called after entrance animation completes for each step
-				Log.d("Tour", "Now showing step " + stepIndex + ": " + step.getTitle());
-			}
-			
-			@Override
-			public void onStepDismissed(int stepIndex) {
-				// Called when user taps Next or Finish
-				Log.d("Tour", "Step " + stepIndex + " dismissed");
-			}
-			
-			@Override
-			public void onSkipped(int stepIndex) {
-				// Called when user taps Skip or back press triggers dismiss
-				Log.d("Tour", "Skipped at step " + stepIndex);
-			}
-			
-			@Override
-			public void onCompleted() {
-				// Called when all steps are shown and the overlay exits
-			}
-		})
-		.dismissOnTapOutside(false) //you can set globally too
-		.build();
-		_comment("Now start the tutorial");
-		focoraTutorial.start();
 		new Handler(Looper.getMainLooper()).postDelayed(() -> {
 			
 			textview51.setText(listmanager.getString("render", ""));
@@ -2761,7 +2637,7 @@ public class SettingsFragmentActivity extends Fragment {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -3161,8 +3037,6 @@ public class SettingsFragmentActivity extends Fragment {
 	private static final int COLOR_OK = 0xFF00ACC1;
 	private static final int COLOR_THROTTLE = 0xFFFF3B30;
 	
-	private Focora focoraTutorial;
-	
 	private String finalWidth = "";
 	private String finalHeight = "";
 	{
@@ -3503,11 +3377,7 @@ public class SettingsFragmentActivity extends Fragment {
 		new Thread(() -> {
 			try {
 				
-				Process process = Shizuku.newProcess(
-				new String[]{"sh", "-c", "wm size"},
-				null,
-				null
-				);
+				Process process = ExecEngine.newProcess(new String[]{"sh", "-c", "wm size"});
 				
 				BufferedReader reader = new BufferedReader(
 				new InputStreamReader(process.getInputStream())
@@ -3752,4 +3622,4 @@ public class SettingsFragmentActivity extends Fragment {
 		
 	}
 	
-}
+}

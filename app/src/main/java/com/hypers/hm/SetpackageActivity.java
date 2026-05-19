@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
 import android.app.*;
@@ -34,8 +35,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.*;
-import com.cocode.focora.*;
-import com.droidx.*;
 import com.facebook.shimmer.*;
 import com.google.android.material.slider.Slider;
 import java.io.*;
@@ -74,7 +73,9 @@ import android.Manifest;
 import android.os.Build;
 
 import com.hypers.hm.service.DpiServiceUtils;
-import com.hypers.hm.service.NetworkBoosterService;
+import com.hypers.hm.service.NetworkBoosterService;
+
+
 
 public class SetpackageActivity extends AppCompatActivity {
 	
@@ -1816,7 +1817,7 @@ public class SetpackageActivity extends AppCompatActivity {
 		try {
 			
 			String command = "cmd game list modes";
-			Process process = Shizuku.newProcess(new String[]{"sh", "-c", command}, null, null);
+			Process process = ExecEngine.newProcess(new String[]{"sh", "-c", command});
 			
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 			String line = reader.readLine();
@@ -1982,7 +1983,7 @@ public class SetpackageActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd});
 			
 			InputStream in = process.getInputStream();
 			
@@ -2009,7 +2010,7 @@ public class SetpackageActivity extends AppCompatActivity {
 		try {
 			
 			process =
-			Shizuku.newProcess(new String[]{"sh","-c",cmd + " &"}, null, null);
+			ExecEngine.newProcess(new String[]{"sh","-c",cmd + " &"});
 			
 			InputStream in = process.getInputStream();
 			
@@ -2903,4 +2904,4 @@ public class SetpackageActivity extends AppCompatActivity {
 	{
 	}
 	
-}
+}
