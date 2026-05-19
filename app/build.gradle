@@ -1,0 +1,94 @@
+plugins {
+	id 'com.android.application'
+	id 'org.jetbrains.kotlin.android'
+}
+
+android {
+	compileSdk 34
+	namespace "com.hypers.hm"
+
+	defaultConfig {
+		applicationId "com.hypers.hm"
+		minSdkVersion 21
+		targetSdkVersion 34
+
+		versionCode 3
+		versionName "10230 HYPERS_MANAGERV2"
+
+		// ABI - hanya arm64 + arm untuk Sketchware (lebih ringan, x86 jarang dipakai)
+		ndk {
+			abiFilters "arm64-v8a", "armeabi-v7a"
+		}
+
+		externalNativeBuild {
+			cmake {
+				cppFlags "-std=c++17"
+				// ANDROID_STL=c++_static lebih stabil dari "none" di Sketchware/Termux
+				arguments "-DANDROID_STL=c++_static",
+				          "-DANDROID_PLATFORM=android-21",
+				          "-DANDROID_ARM_NEON=TRUE"
+			}
+		}
+	}
+
+	buildFeatures {
+		prefab true
+	}
+
+	externalNativeBuild {
+		cmake {
+			path "src/main/cpp/CMakeLists.txt"
+			version "3.18.1"
+		}
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+		debug {
+			minifyEnabled false
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_11
+		targetCompatibility JavaVersion.VERSION_11
+	}
+
+	kotlinOptions {
+		jvmTarget = '11'
+	}
+
+	// Paksa pakai packaging options agar tidak conflict .so di Sketchware
+	packagingOptions {
+		pickFirst 'lib/arm64-v8a/libc++_shared.so'
+		pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+	}
+
+	sourceSets {
+		main {
+			jniLibs.srcDirs = ['src/main/jniLibs']
+		}
+	}
+}
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+	implementation 'androidx.appcompat:appcompat:1.6.1'
+	implementation 'com.google.android.material:material:1.11.0'
+	implementation 'de.hdodenhof:circleimageview:3.1.0'
+	implementation 'androidx.work:work-runtime:2.9.0'
+	implementation 'androidx.browser:browser:1.8.0'
+	implementation 'jp.wasabeef:glide-transformations:4.3.0'
+	implementation 'dev.rikka.shizuku:api:13.1.5'
+	implementation 'dev.rikka.shizuku:provider:13.1.5'
+	implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+	implementation 'com.github.bumptech.glide:glide:4.16.0'
+	implementation 'net.lingala.zip4j:zip4j:2.11.5'
+	implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+
+	// OpenSSL untuk NDK build
+	implementation 'com.android.ndk.thirdparty:openssl:1.1.1q-beta-1'
+}

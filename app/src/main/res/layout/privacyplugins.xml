@@ -1,0 +1,200 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:id="@+id/_main">
+	<LinearLayout
+		android:id="@+id/linear1"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:padding="18dp"
+		android:background="#0E0E0E"
+		android:orientation="vertical">
+		<LinearLayout
+			android:id="@+id/linear2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:orientation="vertical">
+			<TextView
+				android:id="@+id/textview1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="HypersManager Plugins"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#00ACC1" />
+			<TextView
+				android:id="@+id/textview2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="LOGIC INSTALLASI PLUGINS IN HYPERS-MANAGER [HM]"
+				android:textSize="12sp"
+				android:textColor="#616161" />
+		</LinearLayout>
+		<ScrollView
+			android:id="@+id/vscroll1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+			<LinearLayout
+				android:id="@+id/linear6"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical">
+				<LinearLayout
+					android:id="@+id/linear4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:background="#1A1A1A"
+					android:orientation="vertical">
+					<TextView
+						android:id="@+id/textview5"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_margin="10dp"
+						android:text="- zyrexx.function =&gt; this is the key to install the plugins module (VALIDASI)\n\n_zyrexx.function_\nkey=Hyperss =&gt; untuk proses install plugins in Hypers Manager [HM]\n\n- hypers.prop =&gt; this is to display the plugins creator metadata.\n\n_hypers.prop (MetaData)_\n•id =&gt; id plugins\n•name =&gt; name plugins\n•version =&gt; version plugins\n•versionCode =&gt; version code plugins\n•author =&gt; plugin creator name\n•description =&gt; description plugins\n•banner =&gt; path to show image in plugins\n\n- customize.sh =&gt; for first time installation\n\n- action.sh =&gt; for shell plugins execute button.\n\n- uninstall.sh =&gt; to return to default plugins (reset)\n\n- post-fs-data.sh =&gt; This script will be executed in BOOT_COMPLETED first sync\n\n- service.sh =&gt; This script will be executed in BOOT_COMPLETED late_start service\n\n- system.prop =&gt; Properties in this file will be loaded as system properties by setprop (debug only)\n\n*the rest of the files are up to you, thank you*"
+						android:textSize="14sp"
+						android:textColor="#81E4F6"
+						android:alpha="0.8" />
+				</LinearLayout>
+				<LinearLayout
+					android:id="@+id/linear5"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:paddingLeft="12dp"
+					android:paddingTop="8dp"
+					android:paddingRight="12dp"
+					android:paddingBottom="8dp"
+					android:gravity="center_vertical"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview4"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="PATH = "
+						android:textSize="15sp"
+						android:textStyle="bold"
+						android:textColor="#00ACC1" />
+					<TextView
+						android:id="@+id/textview3"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="$HYPERSDIR/Contoh Folder"
+						android:textSize="12sp"
+						android:textColor="#BDBDBD"
+						android:layout_weight="1" />
+					<ImageView
+						android:id="@+id/imageview1"
+						android:layout_width="24dp"
+						android:layout_height="24dp"
+						android:src="@drawable/icon_content_copy_round"
+						android:scaleType="fitXY" />
+				</LinearLayout>
+				<LinearLayout
+					android:id="@+id/linear7"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:padding="8dp"
+					android:background="#1A1A1A"
+					android:orientation="vertical">
+					<LinearLayout
+						android:id="@+id/linear8"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_vertical"
+						android:orientation="horizontal">
+						<LinearLayout
+							android:id="@+id/linear13"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:padding="8dp"
+							android:orientation="vertical">
+							<TextView
+								android:id="@+id/textview8"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="PLUGINS SHELL"
+								android:textSize="15sp"
+								android:textStyle="bold"
+								android:textColor="#00ACC1" />
+							<LinearLayout
+								android:id="@+id/linear15"
+								android:layout_width="match_parent"
+								android:layout_height="4dp"
+								android:padding="8dp"
+								android:orientation="horizontal" />
+						</LinearLayout>
+						<LinearLayout
+							android:id="@+id/linear14"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:padding="8dp"
+							android:orientation="vertical">
+							<TextView
+								android:id="@+id/textview9"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="PLUGINS WEBUI"
+								android:textSize="15sp"
+								android:textStyle="bold"
+								android:textColor="#00ACC1" />
+							<LinearLayout
+								android:id="@+id/linear16"
+								android:layout_width="match_parent"
+								android:layout_height="4dp"
+								android:padding="8dp"
+								android:orientation="horizontal" />
+						</LinearLayout>
+					</LinearLayout>
+					<LinearLayout
+						android:id="@+id/linear9"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:background="@drawable/ic_logic_1"
+						android:orientation="horizontal" />
+					<LinearLayout
+						android:id="@+id/linear12"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="8dp"
+						android:background="@drawable/ic_logic_2"
+						android:orientation="horizontal" />
+				</LinearLayout>
+				<LinearLayout
+					android:id="@+id/linear3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:orientation="horizontal">
+					<TextView
+						android:id="@+id/textview6"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Support Me\?"
+						android:textSize="14sp"
+						android:textColor="#757575" />
+					<de.hdodenhof.circleimageview.CircleImageView
+						android:id="@+id/circleimageview1"
+						android:layout_width="25dp"
+						android:layout_height="25dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="8dp"
+						android:src="@drawable/icon_whatsapp_round"
+						app:civ_border_width="0dp"
+						app:civ_border_color="#008DCD"
+						app:civ_circle_background_color="#00FFFFFF"
+						app:civ_border_overlay="true" />
+				</LinearLayout>
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,43 @@
+<resources>
+    <style name="DialogTransparent" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowNoTitle">true</item>
+        </style>
+    <style name="AppTheme.Edge" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <item name="android:statusBarColor">@android:color/transparent</item>
+    <item name="android:navigationBarColor">@android:color/transparent</item>
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:windowLayoutInDisplayCutoutMode">
+        shortEdges
+    </item>
+</style>
+    <style name="AppTheme.EdgeTransparent"
+        parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- transparent background -->
+        <item name="android:windowBackground">
+            @android:color/transparent
+        </item>
+        <!-- transparent dialog -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- no dim -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!-- no title -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- edge to edge -->
+        <item name="android:statusBarColor">
+            @android:color/transparent
+        </item>
+        <item name="android:navigationBarColor">
+            @android:color/transparent
+        </item>
+        <item name="android:windowDrawsSystemBarBackgrounds">
+            true
+        </item>
+        <!-- notch/cutout -->
+        <item name="android:windowLayoutInDisplayCutoutMode">
+            shortEdges
+        </item>
+    </style>
+</resources>

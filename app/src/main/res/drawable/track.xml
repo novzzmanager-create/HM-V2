@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Aktif -->
+    <item android:state_checked="true">
+        <layer-list>
+            <!-- Latar track -->
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#800097A7" /> <!-- warna ON -->
+                    <corners android:radius="20dp"/>
+                    <stroke android:width="1dp" android:color="#FF0097A7" />
+                    <size android:height="25dp"/>
+                </shape>
+            </item>
+
+            <!-- Ruang untuk inset (padding kiri/kanan) -->
+            <item android:left="3dp" android:right="3dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent"/>
+                
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- Tidak Aktif -->
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#300097A7" /> <!-- warna OFF -->
+                    <corners android:radius="20dp"/>
+                    <stroke android:width="1dp" android:color="#700097A7" />
+                    <size android:height="25dp"/>
+                    
+                
+                </shape>
+            </item>
+
+            <item android:left="3dp" android:right="3dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

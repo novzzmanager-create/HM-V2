@@ -1,0 +1,73 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="#1A1A1A"
+	android:elevation="8dp"
+	android:orientation="vertical"
+	android:padding="16dp">
+	<TextView
+		android:id="@+id/textview_title"
+		android:focusable="false"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Wireless Pairing Helper"
+		android:textSize="16sp"
+		android:textStyle="bold"
+		android:textColor="#FFFFFF" />
+	<TextView
+		android:id="@+id/textview2"
+		android:focusable="false"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="4dp"
+		android:text="Gunakan notifikasi untuk input kode atau tombol di bawah untuk membuka setelan."
+		android:textSize="12sp"
+		android:textColor="#BBBBBB" />
+	<LinearLayout
+		android:id="@+id/linear2"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="12dp"
+		android:orientation="horizontal"
+		android:weightSum="2">
+		<Button
+			android:id="@+id/bt_wireless"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Setelan Wireless"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:layout_weight="1"
+			android:layout_marginEnd="4dp"
+			android:backgroundTint="#2196F3"
+			android:textAllCaps="false" />
+		<Button
+			android:id="@+id/bt_pair"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:text="Pair Manual"
+			android:textSize="12sp"
+			android:textColor="#FFFFFF"
+			android:layout_weight="1"
+			android:layout_marginStart="4dp"
+			android:backgroundTint="#4CAF50"
+			android:textAllCaps="false"
+			android:visibility="gone" />
+	</LinearLayout>
+	<EditText
+		android:id="@+id/ed_code"
+		android:focusable="false"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:textSize="12sp"
+		android:textColor="#FFFFFF"
+		android:hint="Masukkan 6 digit kode"
+		android:textColorHint="#666666"
+		android:inputType="number"
+		android:maxLength="6"
+		android:visibility="gone" />
+</LinearLayout>

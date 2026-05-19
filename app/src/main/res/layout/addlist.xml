@@ -1,0 +1,54 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	<LinearLayout
+		android:id="@+id/linear1"
+		android:layout_width="match_parent"
+		android:layout_height="75dp"
+		android:layout_margin="5dp"
+		android:padding="8dp"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
+		<ImageView
+			android:id="@+id/imageview1"
+			android:focusable="false"
+			android:layout_width="35dp"
+			android:layout_height="35dp"
+			android:layout_margin="5dp"
+			android:src="@drawable/default_image"
+			android:scaleType="fitXY" />
+		<LinearLayout
+			android:id="@+id/linear2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:orientation="vertical"
+			android:layout_weight="1">
+			<TextView
+				android:id="@+id/textview1"
+				android:focusable="false"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="8dp"
+				android:text="TextView"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:textColor="#E0E0E0"
+				android:layout_weight="1" />
+		</LinearLayout>
+		<Switch
+			android:id="@+id/switch1"
+			android:focusable="false"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="8dp"
+			android:textSize="12sp"
+			android:textColor="#000000"
+			android:track="@drawable/track"
+			android:thumb="@drawable/thumb" />
+	</LinearLayout>
+</LinearLayout>
