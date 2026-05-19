@@ -9,38 +9,17 @@ import java.io.InputStreamReader;
 
 public class ShizukuUtil {
 
-private static final String TAG = "ShizukuUtil";
+    private static final String TAG = "ShizukuUtil";
 
     public static String exec(String cmd) {
-        StringBuilder output = new StringBuilder();
-
-        try {
-            java.lang.Process process = rikka.shizuku.Shizuku.newProcess(new String[]{"sh", "-c", cmd}, null, null);
-
-            java.io.BufferedReader reader = new java.io.BufferedReader(
-                new java.io.InputStreamReader(process.getInputStream())
-            );
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-
-            process.waitFor();
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
+        // Menggunakan execHm agar terhindar dari pembatasan akses private rikka.shizuku.Shizuku.newProcess
+        return execHm(cmd);
     }
-    
     
     public static String execHm(String cmd) {
         StringBuilder output = new StringBuilder();
         try {
             if (!Hypers.pingBinder()) {
-                // Fallback ke Runtime jika Hypers belum aktif
                 java.lang.Process p = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
                 java.io.BufferedReader reader = new java.io.BufferedReader(
                     new InputStreamReader(p.getInputStream())
