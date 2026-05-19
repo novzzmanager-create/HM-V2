@@ -28,6 +28,7 @@ import android.view.ViewTreeObserver;
 import android.graphics.Region;
 import com.hypers.hm.R;
 import com.hypers.hm.ShizukuUtil;
+import android.os.BatteryManager;
 
 import android.content.pm.ServiceInfo;
 
