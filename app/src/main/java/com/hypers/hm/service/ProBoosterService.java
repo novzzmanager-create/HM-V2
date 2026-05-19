@@ -13,6 +13,7 @@ import android.os.Parcel;
 import android.os.ParcelFileDescriptor;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.HandlerThread;
 import android.os.Process;
 import com.hypers.hm.R;
 import java.io.*;
