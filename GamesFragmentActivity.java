@@ -1,4 +1,5 @@
 package com.hypers.hm;
+import android.os.Environment;
 import com.hypers.hm.ExecEngine;
 
 import android.animation.*;
@@ -159,6 +160,7 @@ public class GamesFragmentActivity extends Fragment {
 	private TimerTask timeLaunch;
 	private SharedPreferences totalApp;
 	private SharedPreferences modes;
+    private Handler _mainHandler = new Handler(Looper.getMainLooper());
 	
 	@NonNull
 	@Override
@@ -534,12 +536,11 @@ public class GamesFragmentActivity extends Fragment {
 	
 	public void _pack() {
 	}
-	private class LoadApplications extends AsyncTask<Void, Integer, Void> {
+	private class LoadApplications implements Runnable {
 		private int progressStatus = 0;
 		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+		private void onPreExecute() {
+			// super.onPreExecute();
 			listview1.setVisibility(View.GONE);
 			LoadingBooster.show(requireActivity())
 			.size(180)
@@ -549,28 +550,27 @@ public class GamesFragmentActivity extends Fragment {
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		public void run() {
 			for (int i = 0; i <= 100; i++) {
 				try {
 					Thread.sleep(20); // delay agar terlihat animasinya
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				publishProgress(i); // kirim nilai ke onProgressUpdate
+				final int _prog = i; new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> onProgressUpdate(_prog)); // kirim nilai ke onProgressUpdate
 			}
 			
 			
 			
-			return null;
+			// done
+			_mainHandler.post(() -> onPostExecute());
 		}
 		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-			progressbar.setProgress(values[0]);
+		private void onProgressUpdate(int value) {
+			// super.onProgressUpdate(values);
+			progressbar.setProgress(value);
 		}
 		
-		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			_$Load$();
@@ -613,7 +613,6 @@ public class GamesFragmentActivity extends Fragment {
 	private int sdk = 0;
 	private int hz = 60;
 	private NotificationManager nm;
-	private Handler mainHandler;
 	private Future<?> taskFuture;
 	private Listview1Adapter adapter;
 	private boolean isDataLoaded = false;
@@ -702,7 +701,8 @@ public class GamesFragmentActivity extends Fragment {
 		try {
 			return BitmapFactory.decodeFile(file.getAbsolutePath());
 		} catch (Exception e) {
-			return null;
+			// done
+			_mainHandler.post(() -> onPostExecute());
 		}
 	}
 	

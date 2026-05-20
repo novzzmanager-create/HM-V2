@@ -103,6 +103,7 @@ public class TaskActivity extends AppCompatActivity {
 	private TextView textview2;
 	private ListView listview1;
 	private ProgressBar progressbar;
+	private Handler _mainHandler = new Handler(Looper.getMainLooper());
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -169,7 +170,7 @@ public class TaskActivity extends AppCompatActivity {
 		listview1.setDivider(null);
 		listview1.setFastScrollEnabled(true);
 		listview1.setVerticalScrollBarEnabled(false);
-		new LoadApplications().execute(new Void[0]);
+		new Thread(new LoadApplications()).start();
 		isLoaded = false;
 		loadActiveTasks();
 		if (Shizuku.pingBinder()) {
@@ -553,41 +554,39 @@ public class TaskActivity extends AppCompatActivity {
 	
 	public void _taskLoad() {
 	}
-	private class LoadApplications extends AsyncTask<Void, Integer, Void> {
+	private class LoadApplications implements Runnable {
 		private int progressStatus = 0;
 		
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+		private void onPreExecute() {
+			// super.onPreExecute();
 			listview1.setVisibility(View.GONE);
 			progressbar.setVisibility(View.VISIBLE);
 			progressbar.setProgress(0); // mulai dari 0
 		}
 		
 		@Override
-		protected Void doInBackground(Void... voids) {
+		public void run() {
 			for (int i = 0; i <= 100; i++) {
 				try {
 					Thread.sleep(20); // delay agar terlihat animasinya
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				publishProgress(i); // kirim nilai ke onProgressUpdate
+				final int _prog = i; new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> onProgressUpdate(_prog)); // kirim nilai ke onProgressUpdate
 			}
 			
 			isLoaded = false;
 			loadActiveTasks();
 			
-			return null;
+			// done
+			_mainHandler.post(() -> onPostExecute());
 		}
 		
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-			progressbar.setProgress(values[0]);
+		private void onProgressUpdate(int value) {
+			// super.onProgressUpdate(values);
+			progressbar.setProgress(value);
 		}
 		
-		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			
