@@ -1,98 +1,101 @@
 plugins {
-	id 'com.android.application'
-	id 'org.jetbrains.kotlin.android'
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
-	compileSdk 36
-	namespace "com.hypers.hm"
+    compileSdk 36
+    namespace "com.hypers.hm"
 
-	defaultConfig {
-		applicationId "com.hypers.hm"
-		minSdkVersion 24
-		targetSdkVersion 36
+    defaultConfig {
+        applicationId "com.hypers.hm"
+        minSdkVersion 24
+        targetSdkVersion 36
 
-		versionCode 3
-		versionName "10230 HYPERS_MANAGERV2"
+        versionCode 3
+        versionName "10230 HYPERS_MANAGERV2"
 
-		// ABI - hanya arm64 + arm untuk Sketchware (lebih ringan, x86 jarang dipakai)
-		ndk {
-			abiFilters "arm64-v8a", "armeabi-v7a"
-		}
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"
+        }
 
-		externalNativeBuild {
-			cmake {
-				cppFlags "-std=c++17"
-				// ANDROID_STL=c++_static lebih stabil dari "none" di Sketchware/Termux
-				arguments "-DANDROID_STL=c++_static",
-				          "-DANDROID_PLATFORM=android-21",
-				          "-DANDROID_ARM_NEON=TRUE"
-			}
-		}
-	}
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++17"
+                arguments "-DANDROID_STL=c++_static",
+                          "-DANDROID_PLATFORM=android-21",
+                          "-DANDROID_ARM_NEON=TRUE"
+            }
+        }
+    }
 
-	buildFeatures {
-		prefab true
-	}
+    buildFeatures {
+        // prefab dihapus karena tidak pakai openssl prefab lagi
+        buildConfig true
+        viewBinding true
+    }
 
-	externalNativeBuild {
-		cmake {
-			path "src/main/cpp/CMakeLists.txt"
-		}
-	}
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.18.1"
+        }
+    }
 
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
-		debug {
-			minifyEnabled false
-		}
-	}
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
 
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_11
-		targetCompatibility JavaVersion.VERSION_11
-	}
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
 
-	kotlinOptions {
-		jvmTarget = '11'
-	}
+    kotlinOptions {
+        jvmTarget = '11'
+    }
 
-	// Paksa pakai packaging options agar tidak conflict .so di Sketchware
-	packagingOptions {
-		pickFirst 'lib/arm64-v8a/libc++_shared.so'
-		pickFirst 'lib/armeabi-v7a/libc++_shared.so'
-	}
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+        pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+        // hindari duplikat .so dari dependencies
+        pickFirst 'lib/arm64-v8a/libssl.so'
+        pickFirst 'lib/armeabi-v7a/libssl.so'
+        pickFirst 'lib/arm64-v8a/libcrypto.so'
+        pickFirst 'lib/armeabi-v7a/libcrypto.so'
+    }
 
-	sourceSets {
-		main {
-			jniLibs.srcDirs = ['src/main/jniLibs']
-		}
-	}
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
 }
 
 dependencies {
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.6.1'
-	implementation 'com.google.android.material:material:1.12.0'
-	implementation 'de.hdodenhof:circleimageview:3.1.0'
-	implementation 'androidx.work:work-runtime:2.9.0'
-	implementation 'androidx.browser:browser:1.8.0'
-	implementation 'jp.wasabeef:glide-transformations:4.3.0'
-	implementation 'dev.rikka.shizuku:api:13.1.5'
-	implementation 'dev.rikka.shizuku:provider:13.1.5'
-	implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-	implementation 'com.github.bumptech.glide:glide:4.16.0'
-	implementation 'net.lingala.zip4j:zip4j:2.11.5'
-	implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.work:work-runtime:2.9.0'
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    implementation 'dev.rikka.shizuku:api:13.1.5'
+    implementation 'dev.rikka.shizuku:provider:13.1.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation 'net.lingala.zip4j:zip4j:2.11.5'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
-	// OpenSSL untuk NDK build
-	implementation 'com.android.ndk.thirdparty:openssl:1.1.1q-beta-1'
+    // OpenSSL DIHAPUS - pakai prebuilt .so dari jniLibs
 
-	// UI libraries
-	implementation 'com.facebook.shimmer:shimmer:0.5.0'
-	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-	implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
 }
