@@ -698,12 +698,12 @@ public class GamesFragmentActivity extends Fragment {
 	}
 	
 	public Bitmap loadBitmapFromCache(File file) {
-		try {
-			return BitmapFactory.decodeFile(file.getAbsolutePath());
-		} catch (Exception e) {
-			// done
-			
-		}
+    try {
+        return BitmapFactory.decodeFile(file.getAbsolutePath());
+    } catch (Exception e) {
+        // done
+    }
+    return null;  // ← tambah ini
 	}
 	
 	public Bitmap drawableToBitmap(Drawable drawable) {
