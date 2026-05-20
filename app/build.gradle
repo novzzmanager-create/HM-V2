@@ -23,8 +23,7 @@ android {
 
     buildFeatures {
         prefab true
-        buildConfig true
-        viewBinding true
+        buildConfig true 
     }
 
     externalNativeBuild {
