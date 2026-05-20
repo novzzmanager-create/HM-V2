@@ -20,11 +20,10 @@ android {
         }
 
         externalNativeBuild {
-    cmake {
-        arguments "-DANDROID_STL=c++_shared"
-        
-    }
-}
+            cmake {
+                arguments "-DANDROID_STL=c++_shared"
+            }
+        }
     }
 
     buildFeatures {
@@ -96,8 +95,6 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.7.0'
-
-    // Ganti boringssl lama dengan ini:
     implementation 'io.github.vvb2060.ndk:boringssl:20250114'
     implementation 'org.lsposed.libcxx:libcxx:27.0.12077973'
 }
