@@ -30,7 +30,7 @@ android {
     }
 
     buildFeatures {
-        // prefab dihapus karena tidak pakai openssl prefab lagi
+        prefab true
         buildConfig true
         viewBinding true
     }
