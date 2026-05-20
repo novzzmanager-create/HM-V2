@@ -334,8 +334,6 @@ public class TaskActivity extends AppCompatActivity {
 		handler.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 				
 				handler.postDelayed(this, 2500);
 			}
@@ -567,8 +565,6 @@ public class TaskActivity extends AppCompatActivity {
 		
 		@Override
 		public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 			for (int i = 0; i <= 100; i++) {
 				try {
 					Thread.sleep(20); // delay agar terlihat animasinya
@@ -582,7 +578,7 @@ public class TaskActivity extends AppCompatActivity {
 			loadActiveTasks();
 			
 			// done
-			_mainHandler.post(this::onPostExecute);
+			_mainHandler.post(() -> onPostExecute());
 		}
 		
 		private void onProgressUpdate(int value) {

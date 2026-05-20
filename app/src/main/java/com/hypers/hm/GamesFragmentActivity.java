@@ -233,8 +233,6 @@ public class GamesFragmentActivity extends Fragment {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 				_$Load$();
 			}
 		}).start();
@@ -315,8 +313,6 @@ public class GamesFragmentActivity extends Fragment {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 					_$Load$();
 				}
 			}).start();
@@ -387,8 +383,6 @@ public class GamesFragmentActivity extends Fragment {
 			new Thread(new Runnable() {
 				@Override
 				public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 					_$Load$();
 				}
 			}).start();
@@ -556,8 +550,6 @@ public class GamesFragmentActivity extends Fragment {
 		
 		@Override
 		public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 			for (int i = 0; i <= 100; i++) {
 				try {
 					Thread.sleep(20); // delay agar terlihat animasinya
@@ -570,7 +562,7 @@ public class GamesFragmentActivity extends Fragment {
 			
 			
 			// done
-			_mainHandler.post(this::onPostExecute);
+			_mainHandler.post(() -> onPostExecute());
 		}
 		
 		private void onProgressUpdate(int value) {
@@ -710,7 +702,7 @@ public class GamesFragmentActivity extends Fragment {
 			return BitmapFactory.decodeFile(file.getAbsolutePath());
 		} catch (Exception e) {
 			// done
-			_mainHandler.post(this::onPostExecute);
+			_mainHandler.post(() -> onPostExecute());
 		}
 	}
 	
@@ -1615,8 +1607,6 @@ public class GamesFragmentActivity extends Fragment {
 										new Thread(new Runnable() {
 											@Override
 											public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 												shizukuExec("setprop debug.generate-debug-info false");
 												shizukuExec("setprop debug.atrace.tags.enableflags 0");
 												shizukuExec("setprop debug.sf.latch_unsignaled 1");
@@ -1642,8 +1632,6 @@ public class GamesFragmentActivity extends Fragment {
 										new Thread(new Runnable() {
 											@Override
 											public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 												shizukuExec("setprop debug.sf.latch_unsignaled ''");
 												shizukuExec("setprop debug.hwui.renderer ''");
 												shizukuExec("settings delete global activity_manager_constants");
@@ -1665,8 +1653,6 @@ public class GamesFragmentActivity extends Fragment {
 										new Thread(new Runnable() {
 											@Override
 											public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 												ArrayList<String> cmdd = new ArrayList<>(Arrays.asList(
 												
 												"settings put global low_power 0",
@@ -1783,8 +1769,6 @@ public class GamesFragmentActivity extends Fragment {
 										new Thread(new Runnable() {
 											@Override
 											public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 												try {
 													execSmart("settings put system pointer_speed 0");
 													execSmart("settings delete secure long_press_timeout");
@@ -2240,8 +2224,6 @@ public class GamesFragmentActivity extends Fragment {
 					Runnable snapRunnable = new Runnable() {
 						@Override
 						public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 							
 							int centerX = hscroll1.getScrollX() + hscroll1.getWidth() / 2;
 							
@@ -2323,8 +2305,6 @@ public class GamesFragmentActivity extends Fragment {
 					hscroll1.post(new Runnable() {
 						@Override
 						public void run() {
-			android.os.Handler _mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
-			_mainHandler.post(this::onPreExecute);
 							int x = mode2.getLeft() - (hscroll1.getWidth() - mode2.getWidth()) / 2;
 							hscroll1.scrollTo(x, 0);
 						}
