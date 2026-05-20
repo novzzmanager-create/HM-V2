@@ -571,8 +571,8 @@ public class GamesFragmentActivity extends Fragment {
 			progressbar.setProgress(value);
 		}
 		
-		private void onPostExecute() {
-			// super.onPostExecute(result);
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
 			_$Load$();
 			
 			listview1.setAdapter(new Listview1Adapter(listmap));
@@ -702,7 +702,7 @@ public class GamesFragmentActivity extends Fragment {
 			return BitmapFactory.decodeFile(file.getAbsolutePath());
 		} catch (Exception e) {
 			// done
-			_mainHandler.post(() -> onPostExecute());
+			
 		}
 	}
 	
