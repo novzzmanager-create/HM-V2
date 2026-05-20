@@ -160,6 +160,7 @@ public class GamesFragmentActivity extends Fragment {
 	private TimerTask timeLaunch;
 	private SharedPreferences totalApp;
 	private SharedPreferences modes;
+    private Handler _mainHandler = new Handler(Looper.getMainLooper());
 	
 	@NonNull
 	@Override
@@ -612,7 +613,6 @@ public class GamesFragmentActivity extends Fragment {
 	private int sdk = 0;
 	private int hz = 60;
 	private NotificationManager nm;
-	private Handler mainHandler;
 	private Future<?> taskFuture;
 	private Listview1Adapter adapter;
 	private boolean isDataLoaded = false;

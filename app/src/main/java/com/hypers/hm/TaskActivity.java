@@ -103,6 +103,7 @@ public class TaskActivity extends AppCompatActivity {
 	private TextView textview2;
 	private ListView listview1;
 	private ProgressBar progressbar;
+	private Handler _mainHandler = new Handler(Looper.getMainLooper());
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
