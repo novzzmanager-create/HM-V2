@@ -572,7 +572,7 @@ public class GamesFragmentActivity extends Fragment {
 		}
 		
 		protected void onPostExecute(Void result) {
-			onPostExecuteImpl(result);
+			
 			_$Load$();
 			
 			listview1.setAdapter(new Listview1Adapter(listmap));
