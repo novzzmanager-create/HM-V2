@@ -60,6 +60,12 @@ android {
         pickFirst 'lib/armeabi-v7a/libssl.so'
         pickFirst 'lib/arm64-v8a/libcrypto.so'
         pickFirst 'lib/armeabi-v7a/libcrypto.so'
+jniLibs {
+            useLegacyPackaging true
+        }
+        resources {
+            excludes += ['**']
+        }
     }
 
     sourceSets {
