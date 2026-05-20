@@ -60,10 +60,14 @@ jobs:
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --info 2>&1 | tail -200
+        run: ./gradlew assembleDebug --no-daemon
         env:
           ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+
+      # Cari APK dulu biar tau lokasi pastinya
+      - name: Find APK
+        run: find . -name "*.apk" -type f
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -71,3 +75,4 @@ jobs:
           name: HypersManager-debug
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 30
+          if-no-files-found: warn
