@@ -20,10 +20,11 @@ android {
         }
 
         externalNativeBuild {
-            cmake {
-                arguments '-DANDROID_STL=none'
-            }
-        }
+    cmake {
+        arguments "-DANDROID_STL=c++_shared"
+        
+    }
+}
     }
 
     buildFeatures {
