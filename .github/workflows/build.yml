@@ -32,15 +32,10 @@ jobs:
             "build-tools;36.0.0" \
             "platforms;android-36"
           echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.2.12479018" >> $GITHUB_ENV
-          echo "CMAKE_HOME=$ANDROID_SDK_ROOT/cmake/3.31.0/bin" >> $GITHUB_ENV
+          echo "$ANDROID_SDK_ROOT/cmake/3.31.0/bin" >> $GITHUB_PATH
 
       - name: Accept licenses
         run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-      - name: Install required tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y findutils
 
       - name: Fix gradlew line endings
         run: sed -i 's/\r//' gradlew
@@ -62,7 +57,6 @@ jobs:
         env:
           ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
-          PATH: ${{ env.CMAKE_HOME }}:${{ env.PATH }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
