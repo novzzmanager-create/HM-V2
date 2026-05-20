@@ -5,7 +5,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch:  # Bisa trigger manual dari GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,10 +28,11 @@ jobs:
         run: |
           echo "y" | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
             "ndk;27.2.12479018" \
-            "cmake;3.22.1" \
-            "build-tools;34.0.0" \
-            "platforms;android-34"
+            "cmake;3.31.0" \
+            "build-tools;36.0.0" \
+            "platforms;android-36"
           echo "ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/27.2.12479018" >> $GITHUB_ENV
+          echo "CMAKE_HOME=$ANDROID_SDK_ROOT/cmake/3.31.0/bin" >> $GITHUB_ENV
 
       - name: Accept licenses
         run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
@@ -53,6 +54,7 @@ jobs:
         env:
           ANDROID_HOME: ${{ env.ANDROID_SDK_ROOT }}
           ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+          PATH: ${{ env.CMAKE_HOME }}:${{ env.PATH }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
