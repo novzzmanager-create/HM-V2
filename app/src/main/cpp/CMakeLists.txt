@@ -1,77 +1,88 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.31)
+
 project("hypers")
 
 set(CMAKE_CXX_STANDARD 17)
-add_compile_options(
-    -fdata-sections -ffunction-sections
-    -fno-exceptions -fno-rtti -fno-threadsafe-statics
-    -Os -fvisibility=hidden
-)
 
-# ── OpenSSL: cari dari NDK prefab ATAU fallback sysroot ─────────────────────
-find_library(SSL_LIB ssl)
-find_library(CRYPTO_LIB crypto)
+add_compile_options(-Werror=format -fdata-sections -ffunction-sections -fno-exceptions -fno-rtti -fno-threadsafe-statics)
 
-if(SSL_LIB AND CRYPTO_LIB)
-    message(STATUS "Found SSL via NDK: ${SSL_LIB}")
-    message(STATUS "Found Crypto via NDK: ${CRYPTO_LIB}")
-    set(OPENSSL_LIBS ${SSL_LIB} ${CRYPTO_LIB})
-else()
-    # Fallback: cari di prefab path (Termux / AGP)
-    find_path(OPENSSL_INCLUDE_DIR openssl/ssl.h
-        PATHS
-            "${CMAKE_SYSROOT}/usr/include"
-            "${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include"
-    )
-    find_library(SSL_LIB NAMES ssl
-        PATHS
-            "${CMAKE_SYSROOT}/usr/lib/${ANDROID_ABI}"
-            "${CMAKE_SYSROOT}/usr/lib"
-    )
-    find_library(CRYPTO_LIB NAMES crypto
-        PATHS
-            "${CMAKE_SYSROOT}/usr/lib/${ANDROID_ABI}"
-            "${CMAKE_SYSROOT}/usr/lib"
-    )
-    if(SSL_LIB AND CRYPTO_LIB)
-        set(OPENSSL_LIBS ${SSL_LIB} ${CRYPTO_LIB})
-        if(OPENSSL_INCLUDE_DIR)
-            include_directories(${OPENSSL_INCLUDE_DIR})
-        endif()
-    else()
-        message(WARNING "OpenSSL tidak ditemukan - libadb.so tidak akan di-build")
-        set(OPENSSL_FOUND FALSE)
-    endif()
-endif()
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message("Builing Release...")
 
-# ── Log library (wajib ada di Android NDK) ──────────────────────────────────
-find_library(LOG_LIB log)
+    add_compile_options(-Os -flto -fvisibility=hidden -fvisibility-inlines-hidden)
+    add_link_options(-flto -Wl,--exclude-libs,ALL -Wl,--gc-sections -Wl,--strip-all)
+else ()
+    message("Builing Debug...")
 
-# ── Interface lib (stub, tidak pakai libc++ shared) ─────────────────────────
+    add_definitions(-DDEBUG)
+endif ()
+
+find_package(OpenSSL REQUIRED)
+set(BORINGSSL_SSL_LIB OpenSSL::SSL)
+set(BORINGSSL_CRYPTO_LIB OpenSSL::Crypto)
+
 add_library(cxx_interface INTERFACE)
 set(CXX_LIB cxx_interface)
 
-# ── TARGET 1: libhypers.so (server utama, tidak butuh OpenSSL) ───────────────
-add_executable(libhypers.so
-    starter_hypers.cpp
-    misc.cpp
-    selinux.cpp
-    cgroup.cpp
-)
-target_link_libraries(libhypers.so ${LOG_LIB} ${CXX_LIB})
-# Pastikan tidak link libc++ shared agar stabil di Sketchware
-set_target_properties(libhypers.so PROPERTIES
-    LINK_FLAGS "-Wl,--gc-sections"
-)
-
-# ── TARGET 2: libadb.so (JNI ADB pairing, butuh OpenSSL) ─────────────────────
-if(NOT DEFINED OPENSSL_FOUND OR NOT OPENSSL_FOUND STREQUAL "FALSE")
-    add_library(adb SHARED
-        adb_pairing.cpp
-        misc.cpp
-    )
-    target_link_libraries(adb ${LOG_LIB} ${OPENSSL_LIBS} ${CXX_LIB})
-    set_target_properties(adb PROPERTIES
-        LINK_FLAGS "-Wl,--gc-sections"
-    )
+# Debug: print semua target boringssl yang tersedia
+message(STATUS "=== Checking boringssl targets ===")
+if (TARGET boringssl::ssl_static)
+    message(STATUS "boringssl::ssl_static -> AVAILABLE")
+else()
+    message(STATUS "boringssl::ssl_static -> NOT FOUND")
 endif()
+if (TARGET boringssl::ssl)
+    message(STATUS "boringssl::ssl -> AVAILABLE")
+else()
+    message(STATUS "boringssl::ssl -> NOT FOUND")
+endif()
+if (TARGET boringssl::crypto_static)
+    message(STATUS "boringssl::crypto_static -> AVAILABLE")
+else()
+    message(STATUS "boringssl::crypto_static -> NOT FOUND")
+endif()
+if (TARGET boringssl::crypto)
+    message(STATUS "boringssl::crypto -> AVAILABLE")
+else()
+    message(STATUS "boringssl::crypto -> NOT FOUND")
+endif()
+if (TARGET boringssl::boringssl)
+    message(STATUS "boringssl::boringssl -> AVAILABLE")
+else()
+    message(STATUS "boringssl::boringssl -> NOT FOUND")
+endif()
+message(STATUS "=== End boringssl targets ===")
+
+# Tentukan ssl target yang tersedia
+if (TARGET boringssl::ssl_static)
+    set(BORINGSSL_SSL_LIB boringssl::ssl_static)
+elseif (TARGET boringssl::ssl)
+    set(BORINGSSL_SSL_LIB boringssl::ssl)
+else()
+    message(WARNING "No boringssl SSL target found! SSL_export_keying_material may not link.")
+    set(BORINGSSL_SSL_LIB "")
+endif()
+
+# -------------------------------------------------------
+
+add_executable(libhypers.so
+        starter.cpp misc.cpp selinux.cpp cgroup.cpp)
+
+target_link_libraries(libhypers.so log cxx::cxx)
+
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(TARGET libhypers.so POST_BUILD
+            COMMAND ${CMAKE_STRIP} --remove-section=.comment "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libhypers.so")
+endif ()
+
+# -------------------------------------------------------
+
+add_library(adb SHARED
+        adb_pairing.cpp misc.cpp)
+
+target_link_libraries(adb log ${BORINGSSL_SSL_LIB} boringssl::crypto_static cxx::cxx)
+
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(TARGET adb POST_BUILD
+            COMMAND ${CMAKE_STRIP} --remove-section=.comment "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libadb.so")
+endif ()

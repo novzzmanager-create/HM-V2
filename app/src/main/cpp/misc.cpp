@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <sys/sendfile.h>
 #include <sys/stat.h>
-/* zconf.h dihapus - tidak tersedia di NDK Android, semua tipe sudah di-cover <sys/types.h> */
+#include <zconf.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <cstdio>
@@ -145,6 +145,9 @@ char *trim(char *str) {
     len = strlen(str);
     endp = str + len;
 
+    /* Move the front and back pointers to address the first non-whitespace
+     * characters from each end.
+     */
     while (isspace((unsigned char) *frontp)) { ++frontp; }
     if (endp != frontp) {
         while (isspace((unsigned char) *(--endp)) && endp != frontp) {}
@@ -155,6 +158,10 @@ char *trim(char *str) {
     else if (frontp != str && endp == frontp)
         *str = '\0';
 
+    /* Shift the string so that it starts at str so that if it's dynamically
+     * allocated, we can still free it on the returned pointer.  Note the reuse
+     * of endp to mean the front of the string buffer now.
+     */
     endp = str;
     if (frontp != str) {
         while (*frontp) { *endp++ = *frontp++; }
