@@ -563,7 +563,7 @@ public class GamesFragmentActivity extends Fragment {
 			
 			
 			// done
-			_mainHandler.post(() -> onPostExecute());
+			_mainHandler.post(() -> onPostExecute(null));
 		}
 		
 		private void onProgressUpdate(int value) {
@@ -572,7 +572,7 @@ public class GamesFragmentActivity extends Fragment {
 		}
 		
 		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
+			onPostExecuteImpl(result);
 			_$Load$();
 			
 			listview1.setAdapter(new Listview1Adapter(listmap));
